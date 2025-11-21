@@ -1,4 +1,6 @@
 from constants import NAME, WIDTH, HEIGHT, TILE_SIZE, FPS
+from arena import Arena
+
 import pygame as pg
 
 
@@ -15,6 +17,8 @@ class Game:
 
         looping = True
 
+        arena = Arena(WINDOW)
+
         while looping:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -22,6 +26,8 @@ class Game:
                 if not pg.display.get_init():
                     looping = False
                     break
+                
+                arena.draw()
 
                 pg.display.flip()
                 clock.tick(FPS)

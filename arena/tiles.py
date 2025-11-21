@@ -1,0 +1,11 @@
+EMPTY = 0
+RIVER = 1
+TOWER = 2
+OBSTACLE = 3
+
+TILE_COLORS = {
+    EMPTY: (0, 128, 0),
+    RIVER: (0, 0, 255),
+    TOWER: (128, 128, 128),
+    OBSTACLE: (139, 69, 19)
+}
