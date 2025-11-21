@@ -1,0 +1,5 @@
+NAME = "clash roYale"
+WIDTH = 600
+HEIGHT = 900
+TILE_SIZE = 30
+FPS = 60
