@@ -1,5 +1,6 @@
 from constants import NAME, WIDTH, HEIGHT, TILE_SIZE, FPS
 from arena import Arena
+from ui import CardManager
 
 import pygame as pg
 
@@ -18,16 +19,24 @@ class Game:
         looping = True
 
         arena = Arena(WINDOW)
+        card_manager = CardManager(WINDOW)
 
         while looping:
+            WINDOW.fill("WHITE")
+
+            arena.draw()
+            card_manager.run()
+
+            pg.display.flip()
+            clock.tick(FPS)
+
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
                 if not pg.display.get_init():
                     looping = False
                     break
-                
-                arena.draw()
-
-                pg.display.flip()
-                clock.tick(FPS)
+                if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                    card_manager.check_card_select(True)
+                if event.type == pg.MOUSEBUTTONUP and event.button == 1:
+                    card_manager.check_card_select(False)
