@@ -1,5 +1,5 @@
 from constants import CARD_HEIGHT, CARD_WIDTH, HEIGHT, WIDTH
-from .card import Card
+from entities import Card, Knight, Pekka
 
 import pygame as pg
 
@@ -16,10 +16,7 @@ class CardManager:
         x = WIDTH - (CARD_WIDTH + 10) * 4
         y = HEIGHT - CARD_HEIGHT - 20
 
-        for i in range(8):
-            self.cards.append(
-                Card(self.screen, x + i * (CARD_WIDTH + 10), y)
-            )
+        # TO DO !
 
     def check_card_select(self, click: bool) -> None:
         self.clicked = click
