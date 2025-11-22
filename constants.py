@@ -3,3 +3,4 @@ TILE_SIZE = 20
 WIDTH = 22 * TILE_SIZE 
 HEIGHT = 36 * TILE_SIZE
 FPS = 60
+ASSETS_PATH = "assets/sprites/arena/"

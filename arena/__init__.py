@@ -1,2 +1,2 @@
-from .tiles import TILE_COLORS
+from .tiles import TILES
 from .arena import Arena
