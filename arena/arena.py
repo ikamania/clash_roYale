@@ -1,18 +1,16 @@
 from constants import TILE_SIZE, WIDTH
 from arena import TILES
+from utils import AssetLoader
 
 import pygame as pg
-import json
 
 
 class Arena:
-    def __init__(self, screen, map_file="data/arena.json" ) -> None:
+    def __init__(self, screen, map_name="arena_1" ) -> None:
         self.screen = screen
 
-        with open(map_file) as f:
-            data = json.load(f)
-        self.map = data["map"]
-        
+        self.map = AssetLoader.load_map(map_name)
+
         self.surface = pg.Surface((
             len(self.map[0]) * TILE_SIZE,
             len(self.map) * TILE_SIZE

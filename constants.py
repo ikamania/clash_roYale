@@ -6,3 +6,6 @@ WIDTH = 22 * TILE_SIZE
 HEIGHT = 36 * TILE_SIZE
 FPS = 60
 ASSETS_PATH = "assets/sprites/arena/"
+COVER_PATH = "assets/covers"
+ARENA_PATH = "data/"
+DECK_PATH = "data/deck.json"

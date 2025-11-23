@@ -1,4 +1,5 @@
 from entities.card import Card
+from constants import COVER_PATH
 
 import pygame as pg
 
@@ -11,5 +12,5 @@ class Knight(Card):
             y = y,
             name = "Knight",
             elixir = 3,
-            cover_path="assets/covers/knight.png"
+            cover_path=f"{COVER_PATH}/knight.png"
         )

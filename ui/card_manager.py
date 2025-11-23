@@ -1,7 +1,8 @@
-from constants import CARD_HEIGHT, CARD_WIDTH, HEIGHT, WIDTH
-from entities import Card, Knight, Pekka
+from constants import CARD_HEIGHT, CARD_WIDTH 
+from entities import Card
 
 import pygame as pg
+from utils import AssetLoader
 
 
 class CardManager:
@@ -11,17 +12,12 @@ class CardManager:
         self.selected: Card | None = None
         self.clicked = False
 
-        # implement a way to shufle deck and get random cards
-
-        x = WIDTH - (CARD_WIDTH + 10) * 4
-        y = HEIGHT - CARD_HEIGHT - 20
-
-        # TO DO !
+        self.cards = AssetLoader.load_deck(screen)
 
     def check_card_select(self, click: bool) -> None:
         self.clicked = click
         if not click and self.selected:
-            self.selected.rect.y = self.selected.y - 10
+            self.selected.rect.y = self.selected.y - 20
             self.selected.rect.x = self.selected.x
 
             return
