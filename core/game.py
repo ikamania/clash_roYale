@@ -1,4 +1,4 @@
-from constants import NAME, WIDTH, HEIGHT, TILE_SIZE, FPS
+from constants import NAME, WIDTH, HEIGHT, FPS
 from arena import Arena
 from ui import CardManager
 
@@ -19,7 +19,7 @@ class Game:
         looping = True
 
         arena = Arena(WINDOW)
-        card_manager = CardManager(WINDOW)
+        card_manager = CardManager(WINDOW, arena)
 
         while looping:
             WINDOW.fill("WHITE")

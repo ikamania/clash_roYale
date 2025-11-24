@@ -1,11 +1,12 @@
 NAME = "clash roYale"
 TILE_SIZE = 20
-CARD_WIDTH = 70
-CARD_HEIGHT = 100
-WIDTH = 22 * TILE_SIZE 
+CARD_WIDTH = 77
+CARD_HEIGHT = 96
+WIDTH = 22 * TILE_SIZE
 HEIGHT = 36 * TILE_SIZE
 FPS = 60
 ASSETS_PATH = "assets/sprites/arena/"
-COVER_PATH = "assets/covers"
+CARD_IMAGE_PATH = "assets/covers"
+HERO_IMAGE_PATH = "assets/sprites/troops"
 ARENA_PATH = "data/"
 DECK_PATH = "data/deck.json"
