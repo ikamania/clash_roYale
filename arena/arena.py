@@ -13,16 +13,16 @@ class Arena:
 
         self.map = AssetLoader.load_map(map_name)
 
+        self.off_x = (WIDTH - TILE_SIZE * len(self.map[0])) / 2
+        self.off_y = TILE_SIZE
+
         self.surface = pg.Surface(
             (len(self.map[0]) * TILE_SIZE, len(self.map) * TILE_SIZE)
         )
-        self.rect = self.surface.get_rect()
+        self.rect = self.surface.get_rect(topleft=(self.off_x, self.off_y))
 
         self.width = self.surface.get_width()
         self.height = self.surface.get_height()
-
-        self.off_x = (WIDTH - TILE_SIZE * len(self.map[0])) / 2
-        self.off_y = TILE_SIZE
 
         for y, row in enumerate(self.map):
             for x, num in enumerate(row):
