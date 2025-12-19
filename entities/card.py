@@ -3,21 +3,22 @@ import pygame as pg
 
 
 class Card:
+    name: str
+    elixir: int
+
     def __init__(
         self,
         screen: pg.Surface,
         x: int,
         y: int,
-        name: str,
-        elixir: int,
     ) -> None:
         self.screen = screen
         self.state = "CARD"
         self.x = x
         self.y = y
 
-        self.card_image = self.load_image(f"{CARD_IMAGE_PATH}/{name}.png", True)
-        self.hero_image = self.load_image(f"{HERO_IMAGE_PATH}/{name}.png", False)
+        self.card_image = self.load_image(f"{CARD_IMAGE_PATH}/{self.name}.png", True)
+        self.hero_image = self.load_image(f"{HERO_IMAGE_PATH}/{self.name}.png", False)
 
         self.image_n_rect = {
             "CARD": (self.card_image, self.card_image.get_rect(x=x, y=y)),
