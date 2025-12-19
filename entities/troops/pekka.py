@@ -4,7 +4,7 @@ from pygame import Surface
 
 
 class Pekka(Card):
-    def __init__(self, screen: Surface, x: int | float, y: int | float) -> None:
+    def __init__(self, screen: Surface, x: int, y: int) -> None:
         super().__init__(
             screen=screen,
             x=x,

@@ -1,15 +1,13 @@
 from constants import CARD_HEIGHT, CARD_WIDTH, CARD_IMAGE_PATH, HERO_IMAGE_PATH
-
 import pygame as pg
-from typing import Literal
 
 
 class Card:
     def __init__(
         self,
         screen: pg.Surface,
-        x: int | float,
-        y: int | float,
+        x: int,
+        y: int,
         name: str,
         elixir: int,
     ) -> None:
