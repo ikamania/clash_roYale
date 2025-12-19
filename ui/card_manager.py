@@ -1,44 +1,47 @@
 from constants import CARD_HEIGHT, CARD_WIDTH, WIDTH, HEIGHT
-from entities import Card, CARD_CLASSES
+from entities import Card
 from arena import Arena
+from .deck import Deck
 
 import pygame as pg
-from utils import AssetLoader
 
 
 class CardManager:
     def __init__(self, screen: pg.Surface, arena: Arena) -> None:
         self.screen = screen
         self.arena = arena
-        self.cards: list[Card] = []
+        self.deck = Deck()
+        self.cards: list[Card] = self.load_cards(4)
         self.selected: Card | None = None
         self.clicked = False
-        self.cards = self.load_deck_n_objects()
 
-    def load_deck_n_objects(self) -> list[Card]:
-        deck_str = AssetLoader.load_deck()
-        deck_cls = []
-
+    def load_cards(self, count: int) -> list[Card]:
+        cards = []
         raw_x = WIDTH / 4
         raw_y = HEIGHT - CARD_HEIGHT - CARD_HEIGHT / 3
-        for num, card_name in enumerate(deck_str):
-            if num < 4:
-                x = raw_x + (CARD_WIDTH + 5) * num
-            else:
-                x = -100
 
-            deck_cls.append(CARD_CLASSES[card_name](self.screen, x, raw_y))
-
-        return deck_cls
+        for num in range(count):
+            cards.append(
+                self.deck.get_next_card()(
+                    self.screen, raw_x + (CARD_WIDTH + 5) * num, raw_y
+                )
+            )
+        return cards
 
     def check_card_select(self, click: bool) -> None:
         self.clicked = click
+        mouse_position = pg.mouse.get_pos()
+
         if not click and self.selected:
-            self.selected.reset_n_pop_image_location()
+            if self.arena.rect.collidepoint(mouse_position):
+                self.arena.spawn(self.selected)
+
+                self.load_new_card()
+            else:
+                self.selected.reset_n_pop_image_location()
 
             return
 
-        mouse_position = pg.mouse.get_pos()
         for i in range(4):
             card = self.cards[i]
 
@@ -53,13 +56,22 @@ class CardManager:
             return
         mouse_x, mouse_y = pg.mouse.get_pos()
 
-        self.selected.rect.x = mouse_x - self.selected.rect.w / 2
-        self.selected.rect.y = mouse_y - self.selected.rect.h / 2
+        self.selected.rect.x = int(mouse_x - self.selected.rect.w / 2)
+        self.selected.rect.y = int(mouse_y - self.selected.rect.h / 2)
+
+    def load_new_card(self) -> None:
+        if not self.selected:
+            return
+        self.cards.remove(self.selected)
+
+        new_card = self.deck.get_next_card()(
+            self.screen, self.selected.x, self.selected.y
+        )
+        self.cards.append(new_card)
+        self.selected = None
 
     def draw(self) -> None:
-        for i in range(4):
-            card = self.cards[i]
-
+        for card in self.cards:
             new_state = (
                 "HERO"
                 if (
