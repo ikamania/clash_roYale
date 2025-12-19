@@ -2,6 +2,7 @@ from constants import CARD_HEIGHT, CARD_WIDTH, WIDTH, HEIGHT
 from entities import Card
 from arena import Arena
 from .deck import Deck
+from .elixir_bar import ElixirBar
 
 import pygame as pg
 
@@ -11,14 +12,15 @@ class CardManager:
         self.screen = screen
         self.arena = arena
         self.deck = Deck()
+        self.elixir_bar = ElixirBar(self.screen)
         self.cards: list[Card] = self.load_cards(4)
         self.selected: Card | None = None
         self.clicked = False
 
     def load_cards(self, count: int) -> list[Card]:
         cards = []
-        raw_x = WIDTH / 4
-        raw_y = HEIGHT - CARD_HEIGHT - CARD_HEIGHT / 3
+        raw_x = int(WIDTH / 4)
+        raw_y = int(HEIGHT - CARD_HEIGHT - CARD_HEIGHT / 3)
 
         for num in range(count):
             cards.append(
@@ -35,6 +37,7 @@ class CardManager:
         if not click and self.selected:
             if self.arena.rect.collidepoint(mouse_position):
                 self.arena.spawn(self.selected)
+                self.elixir_bar.use_elixir(self.selected.elixir)
 
                 self.load_new_card()
             else:
@@ -90,5 +93,5 @@ class CardManager:
 
     def run(self) -> None:
         self.update_selected_card_position()
-
+        self.elixir_bar.run()
         self.draw()
