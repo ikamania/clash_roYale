@@ -20,12 +20,23 @@ class ElixirBar:
         self.elixir -= count
 
     def draw(self) -> None:
-        pg.draw.rect(self.screen, "GRAY", self.rect)
+        pg.draw.rect(self.screen, "BLACK", self.rect)
+
+        w = self.elixir * (self.w / 10)
         pg.draw.rect(
             self.screen,
             "BLUE",
-            pg.Rect(self.off_x, self.off_y, self.elixir * (self.w / 10), self.h),
+            pg.Rect(self.off_x, self.off_y, w, self.h),
         )
+        for i in range(1, self.elixir + 1):
+            x = self.off_x + i * self.w / 10
+            pg.draw.line(
+                self.screen,
+                "WHITE",
+                (x, self.off_y),
+                (x, self.off_y + self.h - 1),
+                1,
+            )
 
     def run(self) -> None:
         self.draw()
