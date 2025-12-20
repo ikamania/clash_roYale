@@ -2,6 +2,7 @@ from constants import TILE_SIZE, WIDTH
 from arena import TILES
 from utils import AssetLoader
 from entities import Card
+from entities import Tower
 
 import pygame as pg
 
@@ -9,6 +10,7 @@ import pygame as pg
 class Arena:
     def __init__(self, screen, map_name="arena_1") -> None:
         self.screen = screen
+        self.towers = [Tower(screen, 100, 100, "assets/sprites/towers/tower_king.png")]
         self.cards = []
 
         self.map = AssetLoader.load_map(map_name)
@@ -46,6 +48,8 @@ class Arena:
     def draw(self) -> None:
         self.screen.blit(self.surface, (self.off_x, self.off_y))
 
+        for tower in self.towers:
+            tower.draw()
         for card in self.cards:
             card.draw()
 
