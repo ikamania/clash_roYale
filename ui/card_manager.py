@@ -35,12 +35,14 @@ class CardManager:
         mouse_position = pg.mouse.get_pos()
 
         if not click and self.selected:
-            if self.selected.elixir <= self.elixir_bar.elixir:
-                if self.arena.rect.collidepoint(mouse_position):
-                    self.arena.spawn(self.selected)
-                    self.elixir_bar.use_elixir(self.selected.elixir)
+            if (
+                self.selected.elixir <= self.elixir_bar.elixir
+                and self.arena.rect.collidepoint(mouse_position)
+            ):
+                self.arena.spawn(self.selected)
+                self.elixir_bar.use_elixir(self.selected.elixir)
 
-                    self.load_new_card()
+                self.load_new_card()
             else:
                 self.selected.reset_n_pop_image_location()
 
