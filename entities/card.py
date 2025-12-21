@@ -1,21 +1,24 @@
-from constants import CARD_HEIGHT, CARD_WIDTH, CARD_IMAGE_PATH, HERO_IMAGE_PATH
+from constants import CARD_HEIGHT, CARD_WIDTH, CARD_IMAGE_PATH, HERO_IMAGE_PATH, Side
 import pygame as pg
 
 
 class Card:
     name: str
     elixir: int
+    radius: int
 
     def __init__(
         self,
         screen: pg.Surface,
         x: int,
         y: int,
+        side: Side,
     ) -> None:
         self.screen = screen
         self.state = "CARD"
         self.x = x
         self.y = y
+        self.side = side
 
         self.card_image = self.load_image(f"{CARD_IMAGE_PATH}/{self.name}.png", True)
         self.hero_image = self.load_image(f"{HERO_IMAGE_PATH}/{self.name}.png", False)

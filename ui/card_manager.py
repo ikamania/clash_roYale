@@ -1,4 +1,4 @@
-from constants import CARD_HEIGHT, CARD_WIDTH, WIDTH, HEIGHT
+from constants import CARD_HEIGHT, CARD_WIDTH, WIDTH, HEIGHT, Side
 from entities import Card
 from arena import Arena
 from .deck import Deck
@@ -8,9 +8,10 @@ import pygame as pg
 
 
 class CardManager:
-    def __init__(self, screen: pg.Surface, arena: Arena) -> None:
+    def __init__(self, screen: pg.Surface, arena: Arena, side: Side) -> None:
         self.screen = screen
         self.arena = arena
+        self.side = side
         self.deck = Deck()
         self.elixir_bar = ElixirBar(self.screen)
         self.cards: list[Card] = self.load_cards(4)
@@ -25,7 +26,7 @@ class CardManager:
         for num in range(count):
             cards.append(
                 self.deck.get_next_card()(
-                    self.screen, raw_x + (CARD_WIDTH + 5) * num, raw_y
+                    self.screen, raw_x + (CARD_WIDTH + 5) * num, raw_y, self.side
                 )
             )
         return cards
@@ -71,7 +72,7 @@ class CardManager:
         self.cards.remove(self.selected)
 
         new_card = self.deck.get_next_card()(
-            self.screen, self.selected.x, self.selected.y
+            self.screen, self.selected.x, self.selected.y, self.side
         )
         self.cards.append(new_card)
         self.selected = None
