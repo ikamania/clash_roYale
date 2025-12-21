@@ -19,6 +19,7 @@ class Card:
         self.x = x
         self.y = y
         self.side = side
+        self.enemy = None
 
         self.card_image = self.load_image(f"{CARD_IMAGE_PATH}/{self.name}.png", True)
         self.hero_image = self.load_image(f"{HERO_IMAGE_PATH}/{self.name}.png", False)
@@ -28,6 +29,19 @@ class Card:
             "HERO": (self.hero_image, self.hero_image.get_rect(x=x, y=y)),
         }
         self.change_image_n_rect()
+
+    def is_enemys_nearby(self, cards_on_arena: list["Card"]) -> None:
+        for card in cards_on_arena:
+            if card.side != self.side and self.is_enemy_in_range(card):
+                self.enemy = card
+
+    def is_enemy_in_range(self, enemy: "Card") -> bool:
+        dx = enemy.rect.centerx - self.rect.centerx
+        dy = enemy.rect.centery - self.rect.centery
+
+        distance_sq = dx * dx + dy * dy
+
+        return distance_sq <= self.radius**2
 
     def load_image(self, path: str, scale: bool) -> pg.Surface:
         image = pg.image.load(path).convert_alpha()
@@ -46,6 +60,17 @@ class Card:
 
     def reset_image_y(self) -> None:
         self.rect.y = self.y
+
+    def update_state_and_draw(self, clicked: bool, selected: bool, arena) -> None:
+        new_state = (
+            "HERO" if clicked and selected and arena.check_tile_collide() else "CARD"
+        )
+
+        if new_state != self.state:
+            self.reset_n_pop_image_location()
+            self.change_image_n_rect()
+
+        self.draw()
 
     def draw(self) -> None:
         image, rect = self.image_n_rect[self.state]

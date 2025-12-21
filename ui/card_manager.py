@@ -77,25 +77,15 @@ class CardManager:
         self.cards.append(new_card)
         self.selected = None
 
-    def draw(self) -> None:
+    def loop_through_cards(self):
         for card in self.cards:
-            new_state = (
-                "HERO"
-                if (
-                    self.clicked
-                    and card == self.selected
-                    and self.arena.check_tile_collide()
-                )
-                else "CARD"
+            card.update_state_and_draw(
+                clicked=self.clicked, selected=(card == self.selected), arena=self.arena
             )
-
-            if new_state != card.state:
-                card.reset_n_pop_image_location()
-                card.change_image_n_rect()
-
-            card.draw()
+            card.is_enemys_nearby(self.arena.cards)
 
     def run(self) -> None:
         self.update_selected_card_position()
+
         self.elixir_bar.run()
-        self.draw()
+        self.loop_through_cards()
