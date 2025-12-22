@@ -11,6 +11,7 @@ class Card:
     radius: int
     speed: float
     range: float
+    attack_cooldown: int
 
     def __init__(
         self,
@@ -26,6 +27,7 @@ class Card:
         self.side = side
         self.enemy = None
         self.alive = True
+        self.attack_timer = 0
 
         self.card_image = self.load_image(f"{CARD_IMAGE_PATH}/{self.name}.png", True)
         self.hero_image = self.load_image(f"{HERO_IMAGE_PATH}/{self.name}.png", False)
@@ -47,6 +49,8 @@ class Card:
 
         distance = hypot(dx, dy)
         if distance <= self.range:
+            if self.attack_timer != self.attack_cooldown:
+                return
             self.enemy.take_damage(self.damage)
 
             if not self.enemy.alive:
@@ -128,6 +132,12 @@ class Card:
     ) -> None:
         if not self.alive:
             return
+
+        if self.attack_timer > 0:
+            self.attack_timer -= 1
+
+        if self.enemy and self.attack_timer == 0:
+            self.attack_timer = self.attack_cooldown
 
         self.find_closest_enemy(cards_on_arena)
         self.attack()

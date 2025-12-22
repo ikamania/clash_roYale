@@ -12,6 +12,7 @@ class Pekka(Card):
     radius = 100
     speed = 1.6
     range = 10
+    attack_cooldown = 200
 
     def __init__(self, screen: Surface, x: int, y: int, side: Side) -> None:
         super().__init__(
