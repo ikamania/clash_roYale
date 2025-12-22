@@ -61,9 +61,11 @@ class Card:
     def reset_image_y(self) -> None:
         self.rect.y = self.y
 
-    def update_state_and_draw(self, clicked: bool, selected: bool, arena) -> None:
+    def update_state_and_draw(
+        self, is_mouse_clicked: bool, is_active: bool, is_over_arena: bool
+    ) -> None:
         new_state = (
-            "HERO" if clicked and selected and arena.check_tile_collide() else "CARD"
+            "HERO" if is_mouse_clicked and is_active and is_over_arena else "CARD"
         )
 
         if new_state != self.state:
@@ -76,3 +78,12 @@ class Card:
         image, rect = self.image_n_rect[self.state]
 
         self.screen.blit(image, rect)
+
+    def run(
+        self,
+        cards_on_arena: list["Card"],
+        is_mouse_clicked: bool,
+        is_active: bool,
+        is_over_arena: bool,
+    ) -> None:
+        self.update_state_and_draw(mouse_clicked, active, collide_with_arena)

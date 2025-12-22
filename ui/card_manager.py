@@ -78,11 +78,15 @@ class CardManager:
         self.selected = None
 
     def loop_through_cards(self):
+        collide = self.arena.check_tile_collide()
+
         for card in self.cards:
-            card.update_state_and_draw(
-                clicked=self.clicked, selected=(card == self.selected), arena=self.arena
+            card.run(
+                self.arena.cards,
+                self.clicked,
+                card == self.selected,
+                collide,
             )
-            card.is_enemys_nearby(self.arena.cards)
 
     def run(self) -> None:
         self.update_selected_card_position()
