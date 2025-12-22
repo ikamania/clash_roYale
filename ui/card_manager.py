@@ -81,8 +81,7 @@ class CardManager:
         collide = self.arena.check_tile_collide()
 
         for card in self.cards:
-            card.run(
-                self.arena.cards,
+            card.update_state_and_draw(
                 self.clicked,
                 card == self.selected,
                 collide,

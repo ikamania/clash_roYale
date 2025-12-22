@@ -24,7 +24,7 @@ class Game:
         while looping:
             WINDOW.fill("WHITE")
 
-            arena.draw()
+            arena.run()
             card_manager.run()
 
             pg.display.flip()

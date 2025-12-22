@@ -48,10 +48,12 @@ class Arena:
     def draw(self) -> None:
         self.screen.blit(self.surface, (self.off_x, self.off_y))
 
-        for tower in self.towers:
-            tower.draw()
-        for card in self.cards:
-            card.draw()
-
     def spawn(self, hero: Card) -> None:
         self.cards.append(hero)
+        hero.deploy()
+
+    def run(self) -> None:
+        self.draw()
+
+        for card in self.cards:
+            card.run(self.cards)

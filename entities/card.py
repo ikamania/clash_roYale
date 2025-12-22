@@ -1,4 +1,5 @@
 from constants import CARD_HEIGHT, CARD_WIDTH, CARD_IMAGE_PATH, HERO_IMAGE_PATH, Side
+from math import hypot
 import pygame as pg
 
 
@@ -6,6 +7,8 @@ class Card:
     name: str
     elixir: int
     radius: int
+    speed: float
+    range: int
 
     def __init__(
         self,
@@ -30,8 +33,32 @@ class Card:
         }
         self.change_image_n_rect()
 
-    def is_enemys_nearby(self, cards_on_arena: list["Card"]) -> None:
+    def attack(self) -> None:
+        if not self.enemy:
+            return
+
+        ex, ey = self.enemy.rect.center
+
+        dx = ex - self.rect.centerx
+        dy = ey - self.rect.centery
+
+        distance = hypot(dx, dy)
+        if distance <= self.range:
+            return  # attack here
+
+        dx /= distance
+        dy /= distance
+
+        self.rect.x += int(dx * self.speed)
+        self.rect.y += int(dy * self.speed)
+
+    def deploy(self) -> None:
+        self.is_placed = True
+
+    def find_closest_enemy(self, cards_on_arena: list["Card"]) -> None:
         for card in cards_on_arena:
+            if card is self:
+                continue
             if card.side != self.side and self.is_enemy_in_range(card):
                 self.enemy = card
 
@@ -82,8 +109,7 @@ class Card:
     def run(
         self,
         cards_on_arena: list["Card"],
-        is_mouse_clicked: bool,
-        is_active: bool,
-        is_over_arena: bool,
     ) -> None:
-        self.update_state_and_draw(mouse_clicked, active, collide_with_arena)
+        self.find_closest_enemy(cards_on_arena)
+        self.attack()
+        self.draw()

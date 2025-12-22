@@ -7,7 +7,9 @@ from pygame import Surface
 class Knight(Card):
     name = "Knight"
     elixir = 3
-    radius = 5
+    radius = 100
+    speed = 2.0
+    range = 10
 
     def __init__(self, screen: Surface, x: int, y: int, side: Side) -> None:
         super().__init__(
