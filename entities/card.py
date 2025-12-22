@@ -5,10 +5,12 @@ import pygame as pg
 
 class Card:
     name: str
+    health: float
+    damage: float
     elixir: int
     radius: int
     speed: float
-    range: int
+    range: float
 
     def __init__(
         self,
@@ -23,6 +25,7 @@ class Card:
         self.y = y
         self.side = side
         self.enemy = None
+        self.alive = True
 
         self.card_image = self.load_image(f"{CARD_IMAGE_PATH}/{self.name}.png", True)
         self.hero_image = self.load_image(f"{HERO_IMAGE_PATH}/{self.name}.png", False)
@@ -44,13 +47,26 @@ class Card:
 
         distance = hypot(dx, dy)
         if distance <= self.range:
-            return  # attack here
+            self.enemy.take_damage(self.damage)
+
+            if not self.enemy.alive:
+                self.enemy = None
+            return
 
         dx /= distance
         dy /= distance
 
-        self.rect.x += int(dx * self.speed)
-        self.rect.y += int(dy * self.speed)
+        self.rect.x += dx * self.speed
+        self.rect.y += dy * self.speed
+
+    def die(self) -> None:
+        self.alive = False
+
+    def take_damage(self, damage: float) -> None:
+        self.health -= damage
+
+        if self.health <= 0:
+            self.die()
 
     def deploy(self) -> None:
         self.is_placed = True
@@ -59,7 +75,7 @@ class Card:
         for card in cards_on_arena:
             if card is self:
                 continue
-            if card.side != self.side and self.is_enemy_in_range(card):
+            if card.alive and card.side != self.side and self.is_enemy_in_range(card):
                 self.enemy = card
 
     def is_enemy_in_range(self, enemy: "Card") -> bool:
@@ -110,6 +126,9 @@ class Card:
         self,
         cards_on_arena: list["Card"],
     ) -> None:
+        if not self.alive:
+            return
+
         self.find_closest_enemy(cards_on_arena)
         self.attack()
         self.draw()

@@ -6,9 +6,11 @@ from pygame import Surface
 
 class Knight(Card):
     name = "Knight"
+    health = 300.0
+    damage = 20.0
     elixir = 3
     radius = 100
-    speed = 2.0
+    speed = 1.1
     range = 10
 
     def __init__(self, screen: Surface, x: int, y: int, side: Side) -> None:

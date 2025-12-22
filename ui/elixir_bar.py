@@ -13,7 +13,7 @@ class ElixirBar:
 
         self.rect = pg.Rect(self.off_x, self.off_y, self.w, self.h)
 
-        self.elixir = 0
+        self.elixir = 10
         self.time = 0
 
     def use_elixir(self, count: int) -> None:

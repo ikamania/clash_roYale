@@ -56,4 +56,8 @@ class Arena:
         self.draw()
 
         for card in self.cards:
+            if not card.alive:
+                self.cards.remove(card)
+                continue
+
             card.run(self.cards)
